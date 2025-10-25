@@ -1,14 +1,22 @@
 import matplotlib.pyplot as pp
 from matplotlib.patches import Arc, Circle
 
+
+
 class Face:
     def __init__(self):
         self.axis = pp.gca()
         self.face_properties = []
         self.__create_base_face()
-        self.create_frown()
-        self.create_right_eyebrow_up()
-        self.create_left_eyebrow_up()
+        self.face_actions = {
+            'smile': self.create_smile,
+            'frown': self.create_frown,
+            'left_eyebrow_down': self.create_left_eyebrow_down,
+            'right_eyebrow_down': self.create_right_eyebrow_down,
+            'left_eyebrow_up': self.create_left_eyebrow_up,
+            'right_eyebrow_up': self.create_right_eyebrow_up,
+        }
+        
         
     def has_overlap(self):
         if 'smile' in self.face_properties and 'frown' in self.face_properties:
@@ -40,7 +48,7 @@ class Face:
         return 'smile' in self.face_properties and 'left_eyebrow_down' in self.face_properties and 'right_eyebrow_down' in self.face_properties
         
     def create_smile(self):
-        self.axis.add_patch(self.__add_curve(x=0.5, y=0.4, width=0.3, height=0.2, angle=0, theta1=200, theta2=340, color='black'))
+        self.face_properties.append(self.__add_curve(x=0.5, y=0.4, width=0.3, height=0.2, angle=0, theta1=200, theta2=340, color='black'))
         self.face_properties.append('smile')
         
     def create_frown(self):
@@ -71,7 +79,7 @@ class Face:
     def __add_circle(self, x, y, radius, color):
         return Circle((x, y), radius=radius, color=color)
     
-    def __add_curve(self, x, y, width, height, angle, theta1, theta2, color):
+    def __create_curve(self, x, y, width, height, angle, theta1, theta2, color):
         return Arc((x, y), width, height, angle=angle, theta1=theta1, theta2=theta2, color=color)
     
     def __add_line(self, x1, y1, x2, y2, color):
@@ -81,3 +89,4 @@ class Face:
         pp.axis('equal')
         #pp.axis('off')
         pp.show()
+        

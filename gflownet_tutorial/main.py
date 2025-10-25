@@ -1,5 +1,6 @@
 from face import Face
+from gflownet import GFlowNet
 
 if __name__ == "__main__":
-    face = Face()
-    face.show()
+    gFlowNet = GFlowNet()
+    gFlowNet.generate_faces()
