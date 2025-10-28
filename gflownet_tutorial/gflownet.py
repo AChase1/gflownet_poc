@@ -11,8 +11,7 @@ from neural_network_model import NeuralNetworkModel
 
 class GFlowNet: 
     def __init__(self):
-        
-        self.actions = sorted(Face().face_actions.keys())
+        self.actions = Face().sorted_actions
 
     def face_reward(self, face: Face):
         if face.has_overlap() or not face.has_mouth() or not face.has_two_eyebrows():
@@ -27,7 +26,7 @@ class GFlowNet:
         elif face.is_evil():
             return 1  
         else:
-            return 1
+            return 0
         
         
     def generate_faces(self, num_faces=50000):
@@ -38,21 +37,22 @@ class GFlowNet:
         losses = []
         sampled_faces = [] 
         update_frequency = 4
+        minibatch_loss = 0
 
         for sample in tqdm.tqdm(range(num_faces), ncols=40):
             
             face = Face()
             current_edge_flow_prediction = forward_action_policy(face.to_tensor())
-            num_layers = 3
-            minibatch_loss = torch.tensor(0.0)
             
+            num_layers = 3
             for layer in range(num_layers):
                 policy = current_edge_flow_prediction / current_edge_flow_prediction.sum()
-                action = Categorical(probs=policy).sample()
-                face.add_property(self.actions[action.item()])
-
                 
-                parent_states, parent_actions = face.get_parents()
+                action = Categorical(probs=policy).sample()
+                new_face = face.copy()
+                new_face.add_property(self.actions[action.item()])
+
+                parent_states, parent_actions = new_face.get_parents()
                 
                 parent_tensors = []
                 for parent in parent_states:
@@ -64,15 +64,16 @@ class GFlowNet:
 
 
                 if layer  == 2:
-                    reward = self.face_reward(face)
+                    reward = self.face_reward(new_face)
                     current_edge_flow_prediction = torch.zeros(6)
                 else:
                     reward = 0
-                    current_edge_flow_prediction = forward_action_policy(face.to_tensor())
+                    current_edge_flow_prediction = forward_action_policy(new_face.to_tensor())
                 
                 flow_mismatch = (parent_edge_flow_predictions.sum() - current_edge_flow_prediction.sum() - reward).pow(2)
-                minibatch_loss += flow_mismatch  
-                
+                minibatch_loss += flow_mismatch 
+                face = new_face
+
             sampled_faces.append(face)
 
             if sample % update_frequency == 0:
@@ -80,6 +81,7 @@ class GFlowNet:
                 minibatch_loss.backward()
                 opt.step()
                 opt.zero_grad()
+                minibatch_loss = 0
 
         self.losses = losses
         self.sampled_faces = sampled_faces
@@ -118,7 +120,6 @@ class GFlowNet:
         self.show_face_percentage("evil", evil_faces, sample_size)
 
     def show_sample_faces(self, sample_size):
-        grid_size = int(math.sqrt(sample_size))
         f, ax = pp.subplots(8,8,figsize=(4,4))
         for i, face in enumerate(self.sampled_faces[-64:]):
             pp.sca(ax[i//8,i%8])

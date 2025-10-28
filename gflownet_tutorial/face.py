@@ -16,6 +16,11 @@ class Face:
             'right_eyebrow_up': self.create_right_eyebrow_up,
         }
         self.sorted_actions = sorted(self.face_actions.keys())
+
+    def copy(self):
+        new_face = Face()
+        new_face.face_properties = self.face_properties.copy()
+        return new_face
         
         
     def has_overlap(self):
@@ -49,7 +54,7 @@ class Face:
 
     def to_tensor(self):
         property_flag = []
-        for i in self.face_actions: 
+        for i in self.sorted_actions: 
             if i in self.face_properties:
                 property_flag.append(1)
             else: 

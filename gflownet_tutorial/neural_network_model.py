@@ -6,7 +6,7 @@ class NeuralNetworkModel(nn.Module):
         super().__init__()
         self.neural_network = nn.Sequential(
             nn.Linear(6, num_hidden_layers),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.Linear(num_hidden_layers, 6),
         )
         
