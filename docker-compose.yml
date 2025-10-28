@@ -1,0 +1,8 @@
+services: 
+  gflownet_poc:
+    build:
+      context: .
+    tty: true
+    volumes:
+      - .:/app
+    
