@@ -34,71 +34,8 @@ class Face:
         }
         
         # used to ensure that any action is sampled in a consistent order
-        self.sorted_actions = sorted(self.face_actions.keys())  
-
-    def copy(self):
-        """
-        Create a deep copy of this face with the same properties.
-        """
+        self.sorted_actions = sorted(self.face_actions.keys()) 
         
-        new_face = Face()
-        new_face.face_properties = self.face_properties.copy()
-        return new_face
-        
-        
-    def has_overlap(self):
-        """
-        Returns True if the face has conflicting/overlapping properties.
-        - both smile and frown
-        - both up and down for the same eyebrow
-        """
-        
-        if 'smile' in self.face_properties and 'frown' in self.face_properties:
-            return True
-        if 'left_eyebrow_up' in self.face_properties and 'left_eyebrow_down' in self.face_properties:
-            return True
-        if 'right_eyebrow_up' in self.face_properties and 'right_eyebrow_down' in self.face_properties:
-            return True
-        return False
-    
-    def has_two_eyebrows(self):
-        """
-        Returns True if the face has both left and right eyebrows.
-        """
-        left = ('left_eyebrow_up' in self.face_properties) or ('left_eyebrow_down' in self.face_properties)
-        right = ('right_eyebrow_up' in self.face_properties) or ('right_eyebrow_down' in self.face_properties)
-        return left and right
-    
-    def has_mouth(self):
-        """
-        Returns True if the face has a mouth (smile or frown).
-        """
-        return ('smile' in self.face_properties) or ('frown' in self.face_properties)
-    
-    def is_sad(self):
-        """
-        Returns True if the face represents a sad expression (frown + raised eyebrows).
-        """
-        return 'frown' in self.face_properties and 'left_eyebrow_up' in self.face_properties and 'right_eyebrow_up' in self.face_properties
-    
-    def is_mad(self):
-        """
-        Returns True if the face represents a mad expression (frown + lowered eyebrows).
-        """
-        return 'frown' in self.face_properties and 'left_eyebrow_down' in self.face_properties and 'right_eyebrow_down' in self.face_properties
-    
-    def is_happy(self):
-        """
-        Returns True if the face represents a happy expression (smile + raised eyebrows).
-        """
-        return 'smile' in self.face_properties and 'left_eyebrow_up' in self.face_properties and 'right_eyebrow_up' in self.face_properties
-    
-    def is_evil(self):
-        """
-        Returns True if the face represents an evil expression (smile + lowered eyebrows).
-        """
-        return 'smile' in self.face_properties and 'left_eyebrow_down' in self.face_properties and 'right_eyebrow_down' in self.face_properties
-
     def to_tensor(self):
         """
         Convert face to a binary tensor representation for neural networks.
@@ -169,12 +106,49 @@ class Face:
         if filename:
             pp.savefig(filename)
         else: 
-            pp.show(block=False)
-        
-        
+            pp.show(block=False) 
 
-    # UTILITY METHODS
-    # ------------------------------------------------------------
+    def copy(self):
+        new_face = Face()
+        new_face.face_properties = self.face_properties.copy()
+        return new_face
+        
+    def has_overlap(self):
+        """
+        Returns True if the face has conflicting/overlapping properties.
+        - both smile and frown
+        - both up and down for the same eyebrow
+        """
+        
+        if 'smile' in self.face_properties and 'frown' in self.face_properties:
+            return True
+        if 'left_eyebrow_up' in self.face_properties and 'left_eyebrow_down' in self.face_properties:
+            return True
+        if 'right_eyebrow_up' in self.face_properties and 'right_eyebrow_down' in self.face_properties:
+            return True
+        return False
+    
+    def has_two_eyebrows(self):
+        left = ('left_eyebrow_up' in self.face_properties) or ('left_eyebrow_down' in self.face_properties)
+        right = ('right_eyebrow_up' in self.face_properties) or ('right_eyebrow_down' in self.face_properties)
+        return left and right
+    
+    def has_mouth(self):
+        return ('smile' in self.face_properties) or ('frown' in self.face_properties)
+    
+    def is_sad(self):
+        return 'frown' in self.face_properties and 'left_eyebrow_up' in self.face_properties and 'right_eyebrow_up' in self.face_properties
+    
+    def is_mad(self):
+        return 'frown' in self.face_properties and 'left_eyebrow_down' in self.face_properties and 'right_eyebrow_down' in self.face_properties
+    
+    def is_happy(self):
+        return 'smile' in self.face_properties and 'left_eyebrow_up' in self.face_properties and 'right_eyebrow_up' in self.face_properties
+    
+    def is_evil(self):
+        return 'smile' in self.face_properties and 'left_eyebrow_down' in self.face_properties and 'right_eyebrow_down' in self.face_properties
+
+    
 
     def add_property(self, action):
         return self.face_properties.append(action)
