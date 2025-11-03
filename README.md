@@ -13,6 +13,11 @@
 This repository implements a proof-of-concept for the relatively new machine learning framework Generative Flow Networks, created by Dr. Yoshua Bengio and others out of the University of Montreal. 
 Generative Flow Networks (GFlowNet) is an alternative version of a Markov Decision Process (MDP) that produces **diverse solutions** from enforcing policies to choose actions **proportional** to a reward function. 
 
+Related Resources: 
+- [The GFlowNet Tutorial (Notion)](https://milayb.notion.site/The-GFlowNet-Tutorial-95434ef0e2d94c24aab90e69b30be9b3)
+- [Google Collab Code Tutorial](https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR)
+- [GFlowNet Foundations](https://arxiv.org/abs/2111.09266)
+
 </br>
 </br>
 
@@ -32,13 +37,13 @@ The tutorial is based from and expanded on the tutorial written by Emmanuel Beng
 ### How To Use
 
 **Prerequisites:** 
-- Clone this repository to your loca
+- Clone this repository to your local machine
 - Download Docker Desktop, if you don't have it already (you can download the application [here](https://docs.docker.com/desktop/))
 
 **Steps to Run:**
 1. Make sure the Docker Desktop application is open and runnning
 2. Navigate to the cloned repository's folder in your terminal
-3. Enter the command `docker compuse up` 
+3. Enter the command `docker compose up` 
 
 **Trouble running docker? No problem, follow the steps below:**
 1. Navigate to the cloned repository's folder in your terminal
