@@ -45,6 +45,8 @@ The tutorial is based from and expanded on the tutorial written by Emmanuel Beng
 2. Navigate to the cloned repository's folder in your terminal
 3. Enter the command `docker compose up` 
 
+</br>
+
 **Trouble running docker? No problem, follow the steps below:**
 1. Navigate to the cloned repository's folder in your terminal
 2. Download environment dependencies with the following command: 
