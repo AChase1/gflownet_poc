@@ -3,7 +3,7 @@
 > [GFlowNet Tutorial](#gflownet-tutorial)<br>
 >     > [Description](#description)<br>
 >     > [How To Use](#how-to-use)<br>
-> [Authors]
+> [Authors](#authors)
 
 </br>
 
@@ -13,14 +13,18 @@
 This repository implements a proof-of-concept for the relatively new machine learning framework Generative Flow Networks, created by Dr. Yoshua Bengio and others out of the University of Montreal. 
 Generative Flow Networks (GFlowNet) is an alternative version of a Markov Decision Process (MDP) that produces **diverse solutions** from enforcing policies to choose actions **proportional** to a reward function. 
 
+</br>
+</br>
+
 ## GFlowNet Tutorial
+</br>
 ### Description
 This tutorial attempts to demonstrate a basic working GFlowNet by generating different "smiley" faces proportional to its specified reward.
 
 Its purpose it to show a very simplified version of how a GFlowNet enforces a policy to sample actions proportional to a reward distribution, affording the opportunity to generate diverse outputs by not overfitting the results towards a maximized reward. 
 
 The tutorial is based from and expanded on the tutorial written by Emmanuel Bengio, which can be found [here](https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR). The work for this tutorial is part of an assignment for a Directed Studies (BIT4000) under the supervision of Dr. David Thue and the RISE Research Group at Carleton University, November 2025.
-
+</br>
 ### How To Use
 Prerequisites: 
 - Clone this repository to your loca
@@ -45,7 +49,7 @@ python3 run gflownet_tutorial/main.py
 ```
 
 *try `pip` and `python` if `pip3` and `python3` don't work, python environments love to make things difficult*
-
+</br>
 > If you wish to expirement with the framework to produce alternative results, simply open the file `gflownet_tutorial/gflownet.py` and modify the reward values in the function `face_reward`. This will produce results reflective of the modified distribution.
 > 
 > Similarly you can modify how many faces it can generate by changing the `num_faces` parameter in the function `gflownet.generate_faces(..)` in the file `gflownet_tutorial/main.py`
