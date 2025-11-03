@@ -151,7 +151,7 @@ class Face:
 
         return parent_states, parent_actions
     
-    def show(self):
+    def show(self, filename=None):
         """
         Display the face using matplotlib.
         
@@ -166,8 +166,10 @@ class Face:
         pp.axis('equal')
         pp.axis('off')
         
-        # allows for multiple faces to be displayed at once
-        pp.show(block=False)
+        if filename:
+            pp.savefig(filename)
+        else: 
+            pp.show(block=False)
         
         
 
@@ -178,33 +180,21 @@ class Face:
         return self.face_properties.append(action)
 
     def set_happy(self):
-        """
-        Make the face a happy face.
-        """
         self.add_property('smile')
         self.add_property('left_eyebrow_up')
         self.add_property('right_eyebrow_up')
     
     def set_sad(self):
-        """
-        Make the face a sad face.
-        """
         self.add_property('frown')
         self.add_property('left_eyebrow_up')
         self.add_property('right_eyebrow_up')
     
     def set_mad(self):
-        """
-        Make the face a mad face.
-        """
         self.add_property('frown')
         self.add_property('left_eyebrow_down')
         self.add_property('right_eyebrow_down')
     
     def set_evil(self):
-        """
-        Make the face an evil face.
-        """
         self.add_property('smile')
         self.add_property('left_eyebrow_down')
         self.add_property('right_eyebrow_down')

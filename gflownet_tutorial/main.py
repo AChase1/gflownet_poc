@@ -14,19 +14,17 @@ RISE Research Group at Carleton University, November 2025.
 """
 
 from gflownet import GFlowNet
-import matplotlib.pyplot as pp
+from utils import show_face_examples
 
 if __name__ == "__main__":
     # show_face_examples()
     
-    # trains a gflownet through constructing faces
+    # # trains a gflownet through constructing faces
     gFlowNet = GFlowNet()
     gFlowNet.generate_faces(num_faces=50000)
     
-    # shows loss differential, the last 64 generated faces, and face type percentages
+    # # shows loss differential, the last 64 generated faces, and face type percentages
     gFlowNet.show_results(sample_size=500)
 
-    input("\n\nPress ENTER to close all windows")
-    pp.close('all')
 
 

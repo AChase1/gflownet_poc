@@ -1,8 +1,10 @@
 services: 
   gflownet_poc:
+    image: gflownet_poc:latest
     build:
       context: .
     tty: true
+    stdin_open: true
     volumes:
       - .:/app
     

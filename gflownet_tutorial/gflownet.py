@@ -3,8 +3,7 @@ from matplotlib.patches import Arc, Circle
 import torch
 import torch.nn as nn
 from torch.distributions.categorical import Categorical
-import tqdm
-import math
+import sys
 
 from face import Face
 from neural_network_model import NeuralNetworkModel
@@ -66,9 +65,9 @@ class GFlowNet:
         update_frequency = 4  
         minibatch_loss = 0  
 
-        # progress bar to track the progress of the training over 
-        for sample in tqdm.tqdm(range(num_faces), ncols=40):
-            
+        # progress bar to track the training
+        for sample in range(num_faces):
+            print(f"Training: {sample}/{num_faces} ({sample/num_faces*100:.2f}%)", flush=True)
             # each sample starts with the base face 
             face = Face()
             
@@ -153,7 +152,7 @@ class GFlowNet:
         - the ratio of generated faces for each face type
         """
         self.plot_losses()
-        self.show_sample_faces(sample_size)
+        self.show_sample_faces()
         
         print(f"|\nRESULTS\n|----------------------------------|\n")
         self.show_face_types(sample_size)
@@ -167,10 +166,11 @@ class GFlowNet:
         proportional to their rewards.
         """
         
-        pp.figure(figsize=(10,3))
+        fig = pp.figure(figsize=(10,3))
         pp.plot(self.losses)
         pp.yscale('log')  
-        pp.show(block=False)
+        pp.savefig("loss_curve.png")
+        pp.close(fig)  # Free memory
 
     def show_face_types(self, sample_size):
         """
@@ -198,7 +198,7 @@ class GFlowNet:
         self.show_face_percentage("mad", mad_faces, sample_size)
         self.show_face_percentage("evil", evil_faces, sample_size)
 
-    def show_sample_faces(self, sample_size):
+    def show_sample_faces(self):
         """
         Display a 8x8 grid of the last 64 generated faces.
         """
@@ -206,7 +206,8 @@ class GFlowNet:
         for i, face in enumerate(self.sampled_faces[-64:]):
             pp.sca(ax[i//8,i%8])
             face.show()
-        pp.show(block=False)
+        pp.savefig("generated_faces.png")
+        pp.close(f)
 
     def show_face_percentage(self, face_type, face_list, sample_size):
         print(f" {face_type} faces: {self.get_face_percentage(face_list, sample_size)}%")
