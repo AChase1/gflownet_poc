@@ -63,7 +63,7 @@ The tutorial is based from and expanded on the tutorial written by Emmanuel Beng
 1. Navigate to the cloned repository's folder in your terminal
 2. Download environment dependencies with the following command: 
 ```bash
-pip3 install requirements.txt -r
+pip3 install -r requirements.txt
 
 ```
 3. Then run the tutorial by entering the following command: 
