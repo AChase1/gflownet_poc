@@ -2,6 +2,7 @@ import matplotlib.pyplot as pp
 from matplotlib.patches import Arc, Circle
 import torch
 import torch.nn as nn
+import matplotlib.cm as cm
 from torch.distributions.categorical import Categorical
 import sys
 
@@ -141,6 +142,7 @@ class GFlowNet:
         # store for displaying results
         self.losses = losses
         self.sampled_faces = sampled_faces
+        self.policy = forward_action_policy
                 
     def show_results(self, sample_size=128):
         """
@@ -156,6 +158,8 @@ class GFlowNet:
         
         print(f"|\nRESULTS\n|----------------------------------|\n")
         self.show_face_types(sample_size)
+        
+        self.show_dag()
         
 
     def plot_losses(self):
@@ -214,6 +218,81 @@ class GFlowNet:
     
     def get_face_percentage(self, face_list, sample_size):
         return (len(face_list)/sample_size) * 100
+    
+    
+    # The three functions below are copied from the GFlowNet tutorial
+    # to show the directed acyclic graph of the flow between states
+    #
+    # Find the source code here: https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR#scrollTo=Y04f-hbkncuO
+    #
+    # *The code below is not outputting properly, needs refinement
+    # --------------------------------------------------------------
+    
+    # def recursively_enumerate(self, face):
+    #     self.enumerated_states = []
+    #     self.transitions = []
+    #     if face.has_overlap():
+    #         return
+    #     for i in self.actions:
+    #         if i not in face.face_properties:
+    #             new_face = face.copy()
+    #             new_face.add_property(i)
+    #             self.recursively_enumerate(new_face)
+    #     self.enumerated_states.append(face.face_properties)
+    #     self.transitions.append((face.face_properties[:-1], face.face_properties))
+    
+    # def enumerate_states(self):
+    #     self.recursively_enumerate(Face())
+    #     unique = []
+    #     for i in map(set, self.enumerated_states):
+    #         if i not in unique:
+    #             unique.append(i)
+    #     self.enumerated_states = sorted(map(tuple, unique))
+    
+    # def face_hash(self, face):
+    #     return tuple([i in face for i in self.actions])
+        
+    # def show_dag(self):
+    #     self.enumerate_states()
+    #     lens = [len([i for i in self.enumerated_states if len(i) == j]) for j in range(4)]
+    #     levels = [sorted([i for i in self.enumerated_states if len(i) == j]) for j in range(4)]
+    #     f = pp.figure(figsize=(8, 8))
+        
+    #     face2pos = {}
+    #     for i, (level, L) in enumerate(zip(levels, lens)):
+    #         for j, face in enumerate(level):
+    #             ax = f.add_axes([j/L, i/4, 1/L, 1/6])
+    #             new_face = Face()
+    #             new_face.face_properties = face
+    #             new_face.show()
+    #             face2pos[self.face_hash(face)] = (j/L+0.5/L, i/4)
+    #             Fstate = self.policy(torch.tensor(self.face_hash(face)).float())
+                
+    #     ax = f.add_axes([0,0,1,1])
+    #     pp.sca(ax)
+    #     pp.gca().set_facecolor((0,0,0,0))
+    #     pp.xlim(0,1)
+    #     pp.ylim(0,1)
+    #     for a, b in self.transitions[1:]:
+    #         if not len(b):
+    #             continue
+    #         pa, pb = face2pos[self.face_hash(a)], face2pos[self.face_hash(b)]
+    #         lb = int(pb[1] * 4)
+    #         Fstate = self.policy(torch.tensor(self.face_hash(a)).float())
+    #         Fa = Fstate[self.actions.index([i for i in b if i not in a][0])].item()
+    #         c = cm.brg(Fa/3)
+    #         lb = int(pb[1] * 4)
+    #         la = int(pa[1] * 4)
+    #         ws = [1/6,1/6,0.13,0.11]
+    #         pp.arrow(pa[0],pa[1]+ws[la],pb[0]-pa[0],pb[1]-pa[1]-ws[lb], head_width=0.01, width=0.003, ec=c,fc=c,
+    #                 length_includes_head=True)
+    #         pp.axis('off')
+    #     ax = f.add_axes([1, 0.2, 0.05, 0.6])
+    #     pp.sca(ax)
+    #     f.colorbar(cm.ScalarMappable(norm=cm.colors.Normalize(vmin=0, vmax=3), cmap=cm.brg), cax=ax, label='Edge Flow')
+    #     pp.savefig("dag.png")
+    #     pp.close(f)
+
     
 
 
