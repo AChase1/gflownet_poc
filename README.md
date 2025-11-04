@@ -80,8 +80,8 @@ python3 gflownet_tutorial/main.py
 
 Depending on the number of samples generating, the program should take ~30s to complete (~2min when using Docker). Once completed, look for the following outputs: 
 - The ratios for each of the generated face types are printed in the terminal
-- A generated PNG image named `generated_faces.png` in the project's parent folder, showing the last 64 "smiley" faces that were generated
-- A generated PNG image named `loss_curve.png` in the project's parent folder, which plots the loss differential over all iterations. The graph should depict an exponentially decreasing loss
+- A generated PNG image named `generated_faces.png` in the project's folder, showing the last 64 "smiley" faces that were generated
+- A generated PNG image named `loss_curve.png` in the project's folder, which plots the loss differential over all iterations. The graph should depict an exponentially decreasing loss
 
 </br>
 
