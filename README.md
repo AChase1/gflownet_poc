@@ -28,8 +28,20 @@ Related Resources:
 ### Description
 This tutorial attempts to demonstrate a basic working GFlowNet by generating different "smiley" faces proportional to its specified reward.
 
-Its purpose it to show a very simplified version of how a GFlowNet enforces a policy to sample actions proportional to a reward distribution, affording the opportunity to generate diverse outputs by not overfitting the results towards a maximized reward. 
+Its purpose it to show a very simplified version of how a GFlowNet enforces a policy to sample actions proportional to a reward distribution, affording the opportunity to generate diverse outputs by not overfitting the results towards a maximized reward. As a result, running the tutorial program should print a ratio for each "smiley" face type according to the distribution in the reward function, and modifying the reward distribution affects the sampling ratios accordingly. 
 
+For Example: 
+```python
+if face.is_happy():
+    return 4 # should generate happy faces ~40% of the time
+elif face.is_sad(): 
+    return 2 # should generate evil faces ~20% of the time
+elif face.is_mad():
+    return 2 # should generate mad faces ~20% of the time
+elif face.is_evil():
+    return 1  # should generate evil faces ~10% of the time
+```
+ 
 The tutorial is based from and expanded on the tutorial written by Emmanuel Bengio, which can be found [here](https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR). The work for this tutorial is part of an assignment for a Directed Studies (BIT4000) under the supervision of Dr. David Thue and the RISE Research Group at Carleton University, November 2025.
 
 </br>
@@ -61,6 +73,13 @@ python3 run gflownet_tutorial/main.py
 ```
 
 *try `pip` and `python` if `pip3` and `python3` don't work, python environments love to make things difficult*
+
+</br>
+
+Depending on the number of samples generating, the program should take ~30s to complete (~2min when using Docker). Once completed, look for the following outputs: 
+- The ratios for each of the generated face types are printed in the terminal
+- A generated PNG image named `generated_faces.png` in the project's parent folder, showing the last 64 "smiley" faces that were generated
+- A generated PNG image named `loss_curve.png` in the project's parent folder, which plots the loss differential over all iterations. The graph should depict an exponentially decreasing loss
 
 </br>
 
