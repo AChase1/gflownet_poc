@@ -68,7 +68,7 @@ pip3 install -r requirements.txt
 ```
 3. Then run the tutorial by entering the following command: 
 ```bash
-python3 run gflownet_tutorial/main.py
+python3 gflownet_tutorial/main.py
 
 ```
 
