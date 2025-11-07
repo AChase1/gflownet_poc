@@ -19,12 +19,12 @@ from utils import show_face_examples
 if __name__ == "__main__":
     # show_face_examples()
     
-    # # trains a gflownet through constructing faces
+    # trains a gflownet through constructing faces
     gFlowNet = GFlowNet()
     gFlowNet.generate_faces(num_faces=50000)
     
-    # # shows loss differential, the last 64 generated faces, and face type percentages
-    gFlowNet.show_results(sample_size=500)
+    # shows loss differential, the last 64 generated faces, and face type percentages
+    gFlowNet.show_results(sample_size=1000)
 
 
 

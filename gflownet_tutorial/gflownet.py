@@ -30,7 +30,7 @@ class GFlowNet:
         if face.is_happy():
             return 4   
         elif face.is_sad():
-            return 2  
+            return 3  
         elif face.is_mad():
             return 2 
         elif face.is_evil():
@@ -69,6 +69,7 @@ class GFlowNet:
         # progress bar to track the training
         for sample in range(num_faces):
             print(f"Training: {sample}/{num_faces} ({sample/num_faces*100:.2f}%)", flush=True)
+            
             # each sample starts with the base face 
             face = Face()
             
@@ -159,7 +160,7 @@ class GFlowNet:
         print(f"|\nRESULTS\n|----------------------------------|\n")
         self.show_face_types(sample_size)
         
-        self.show_dag()
+        # self.show_dag()
         
 
     def plot_losses(self):
