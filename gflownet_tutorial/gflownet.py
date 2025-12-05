@@ -38,6 +38,9 @@ class GFlowNet:
         else:
             return 0
         
+    def generate_houses(self, num_houses=100):
+        pass
+        
         
     def generate_faces(self, num_faces=50000):
         """

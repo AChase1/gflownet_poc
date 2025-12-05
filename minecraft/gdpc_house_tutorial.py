@@ -1,9 +1,11 @@
 from random import choice, randint
 from gdpc import Editor, Block
-from gdpc.geometry import placeCuboid, placeRectOutline, placeCuboidHollow
-from gdpc.vector_tools import ivec3
+from gdpc.geometry import placeCuboid, placeCuboidHollow
 
-from ..minecraft_utils import MinecraftUtils
+from minecraft_utils import MinecraftUtils
+
+# Basic tutorial for building a house with GDPC library. 
+# The tutorial is based on the GDPC house tutorial from their documentation: https://gdpc.readthedocs.io/en/stable/getting-started/tutorial-house.html
 
 if __name__ == "__main__":
     try: 

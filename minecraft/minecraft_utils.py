@@ -1,8 +1,12 @@
 from gdpc import Block
 from gdpc.geometry import placeRectOutline
 
-# required commands for the Minecraft GDPC API
 class MinecraftUtils:
+    """
+    Utility functions for the Minecraft GDPC API.
+    
+    Use to execute commands and setup the world in Minecraft.
+    """
     def __init__(self):
         pass
 
@@ -22,7 +26,7 @@ class MinecraftUtils:
     set_time_noon = "time set noon"
     lock_daynight_cycle = "gamerule doDaylightCycle false"
     
-    # this is used to clear large areas with the fill command, using air blocks
+    # this is used to be able toclear large areas with the fill command, using air blocks
     # failing to do this will result in a "commandModificationBlockLimit exceeded" error
     modify_fill_limit = "gamerule commandModificationBlockLimit 10000000"
     
@@ -34,7 +38,6 @@ class MinecraftUtils:
     # call this method at the beginning of every gdpc script, after fetching the editor instance
     @staticmethod
     def setup_world(editor):
-      """Setup the world for the tutorial"""
       MinecraftUtils.execute_command(editor, MinecraftUtils.set_build_area)
       MinecraftUtils.execute_command(editor, MinecraftUtils.set_time_noon)
       MinecraftUtils.execute_command(editor, MinecraftUtils.lock_daynight_cycle)
@@ -42,10 +45,12 @@ class MinecraftUtils:
       
     @staticmethod
     def get_ground_height(editor):
-        editor.loadWorldSlice(cache=True)
-        heightmap = editor.worldSlice.heightmaps["MOTION_BLOCKING_NO_LEAVES"]
-        ground_height = heightmap[3,3] - 1
-        return ground_height
+        """
+        Returns the height of the ground in the world.
+        """
+        # currently hardcoded to -60 for the ground height for the superflat world
+        # TODO: make this dynamic based on the world heightmap (limitation: ground height changes with each new constructed action, e.g., after building the walls, the tops of the walls are calculated as the new ground height)
+        return -60
         
     # call this method to clear the build area by filling it with air blocks
     @staticmethod
@@ -57,11 +62,13 @@ class MinecraftUtils:
         z1 = build_area.offset.z-10
         x2 = x1 + build_area.size.x + 10
         z2 = z1 + build_area.size.z + 10
-        y1 = -60  
-        y2 = 200
+        y1 = MinecraftUtils.get_ground_height(editor)
+        y2 = y1 + 200
         
         # replace all blocks in the build area with air
         MinecraftUtils.execute_command(editor, MinecraftUtils.clear_area_with_air(x1, y1, z1, x2, y2, z2))
 
     def set_build_area_outline(editor, build_area, y):
         placeRectOutline(editor, build_area.toRect(), y-1, Block("blue_concrete"))
+        
+        
