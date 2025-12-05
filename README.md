@@ -30,7 +30,9 @@ Related Resources:
 </br>
 
 ### Description
-Found under the `minecraft/` directory, this explores using GFlowNets to sample building composite houses in Minecraft using the [GDPC](https://github.com/avdstaaij/gdpc) and [GDMC](https://github.com/Niels-NTG/gdmc_http_interface). Its purpose is to experiment using GFlowNets for increased control over the generation of diverse composite objects in the procedural generation of environments. GFlowNets affords the ability to accessibly manage the output of the machine learning framework through the manipulation of the reward function to produce desired composite objects/environments and/or force diverse experimentation (preventing overfitting). 
+Found under the `minecraft/` directory, this explores using GFlowNets to sample building composite houses in Minecraft using the [GDPC](https://github.com/avdstaaij/gdpc) and [GDMC](https://github.com/Niels-NTG/gdmc_http_interface). Its purpose is to experiment using GFlowNets for increased control over the generation of diverse composite objects in the procedural generation of environments. GFlowNets affords the ability to accessibly manage the output of the machine learning framework through the manipulation of the reward function to produce desired composite objects/environments and/or force diverse experimentation (preventing overfitting).
+
+</br>
 
 ### Important: Not Working As Expected (Suggested Fixes)
 Please note that the current implementation for does not work as expected. Although designed to efficiently explore large search spaces and avoid overfitting, when constructing composite objects of >2^3 actions (in this case, 4^6), it appears to do just that. Based on the test outputs and subsequent research, it appears to be "mode collapse", a common pitfall in machine learning. The model fails to fully explore the search space in order to learn the paths for all the terminal states. When specifying granular rewards for specific paths (e.g., house.is_farmhouse()), the model does not sufficiently sample that path enough to learn its corresponding reward. Therefore more common paths with rewards > 0 (e.g., mixed house styles), are learned early and thus overfits the model to continue to train down those paths, failing to fully explore the search space. Several modifications attempted to fix this, including using the Trajectory Balance logic (from the [Google Collab](https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR#scrollTo=3_XcEbVHB1rs) tutorial) with logits (better for larger search spaces) for sampling houses, as well as small fixes like including a scheduler for stable learning decay and temperature for forced early exploration. Despite this seemingly being the issue, there are probably a number of different factors contributing towards its inaccuracy (e.g., number instability).
@@ -38,6 +40,8 @@ Please note that the current implementation for does not work as expected. Altho
 One source provides a potential solution for this, called [Boosted GFlowNets](https://arxiv.org/html/2511.09677v1#S4). This paper outlines a solution to improve the exploration process of GFlowNets in order to fully explore large search spaces. The general idea, as I understand it, is to use several GFlowNet models called boosters are trained, exploring alternative paths based on the outputs from other boosters (forcing full explorations of large search spaces). An attempt was made to implement this concept, however unfortunately, given time constraints and mathemical complexity, the implementation failed to work. 
 
 Next Steps: Implement a working Boosted GFlowNet in order to address the mode collapse
+
+</br>
 
 ### How To Use 
 
