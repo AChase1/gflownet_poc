@@ -21,6 +21,75 @@ Related Resources:
 </br>
 </br>
 
+## GFlowNet Minecraft
+
+</br>
+
+### Description
+Found under the `minecraft/` directory, this explores using GFlowNets to sample building composite houses in Minecraft using the [GDPC](https://github.com/avdstaaij/gdpc) and [GDMC](https://github.com/Niels-NTG/gdmc_http_interface). Its purpose is to experiment using GFlowNets for increased control over the generation of diverse composite objects in the procedural generation of environments. GFlowNets affords the ability to accessibly manage the output of the machine learning framework through the manipulation of the reward function to produce desired composite objects/environments and/or force diverse experimentation (preventing overfitting). 
+
+### Important: Not Working As Expected (Suggested Fixes)
+Please note that the current implementation for does not work as expected. Although designed to efficiently explore large search spaces and avoid overfitting, when constructing composite objects of >2^3 actions (in this case, 4^6), it appears to do just that. Based on the test outputs and subsequent research, it appears to be "mode collapse", a common pitfall in machine learning. The model fails to fully explore the search space in order to learn the paths for all the terminal states. When specifying granular rewards for specific paths (e.g., house.is_farmhouse()), the model does not sufficiently sample that path enough to learn its corresponding reward. Therefore more common paths with rewards > 0 (e.g., mixed house styles), are learned early and thus overfits the model to continue to train down those paths, failing to fully explore the search space. Several modifications attempted to fix this, including using the Trajectory Balance logic (from the [Google Collab](https://colab.research.google.com/drive/1fUMwgu2OhYpQagpzU5mhe9_Esib3Q2VR#scrollTo=3_XcEbVHB1rs) tutorial) with logits (better for larger search spaces) for sampling houses, as well as small fixes like including a scheduler for stable learning decay and temperature for forced early exploration. Despite this seemingly being the issue, there are probably a number of different factors contributing towards its inaccuracy (e.g., number instability).
+
+One source provides a potential solution for this, called [Boosted GFlowNets](https://arxiv.org/html/2511.09677v1#S4). This paper outlines a solution to improve the exploration process of GFlowNets in order to fully explore large search spaces. The general idea, as I understand it, is to use several GFlowNet models called boosters are trained, exploring alternative paths based on the outputs from other boosters (forcing full explorations of large search spaces). An attempt was made to implement this concept, however unfortunately, given time constraints and mathemical complexity, the implementation failed to work. 
+
+Next Steps: Implement a working Boosted GFlowNet in order to address the mode collapse
+
+### How To Use 
+
+#### Setup
+
+**Minecraft**
+
+1. Must have a Minecraft account and downloaded [Minecraft Java Edition](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc?tabs=%7B%22details%22%3A0%7D) (latest version) on your local machine
+
+**GDMC & GDPC**
+
+In order to use GDPC (python library for building in Minecraft using scripts), you must have the GDMC HTTP Interface (used for connecting to the Minecraft). If needed, reference their documentations for troubleshooting the setup process: [GDPC Docs](https://gdpc.readthedocs.io/en/stable/index.html), [GDMC HTTP Interface Docs](https://github.com/Niels-NTG/gdmc_http_interface/blob/master/README.md)
+
+1. Download the [Modrinth App](https://modrinth.com/app)
+2. Once downloaded and opened, sign into your Minecraft account on the Modrinth App
+    > If you run into errors when signing in, you must have the Minecraft Java Edition game open and running on your local machine
+3. Open the "Discover content" menu tab, and search for GDMC HTTP Interface (make sure the "Mods" filter tab is selected)
+4. Download the mod
+5. Click on the "+" menu tab to create a new instance (ensure the GDMC HTTP Interface mod is enabled for that instance)
+6. Click the "Play" button, which will launch a separate instance of the Minecraft Java Edition (notable by its greyed out background)
+7. In your editor, after cloning this repository onto your local machine, ensure to install all related dependencies: 
+```bash
+pip install -r requirements.txt
+```
+
+**Create Minecraft World**
+
+You may create any world you like, but for the purposes of the experiment its recommended to use the following Minecraft world configurations: 
+
+- Singleplayer
+- (Game) Game Mode: Creative
+- (Game) Difficulty: Peaceful
+- (Game) Allow Commands: ON
+- (World) World Type: Superflat
+- (World) Generate Structures: OFF
+
+#### Running the GDPC Tutorial
+
+If you want to simply test the GDPC library, run the script `minecraft/gdpc_house_tutorial.py`: 
+```bash
+python minecraft/gdpc_house_tutorial.py
+```
+
+The terminal should output the associated executed commands, and the house should be created within your already opened minecraft world. 
+
+#### Running the GFlowNet House tutorial
+
+Run the `minecraft/gflownet_house.py` script: 
+```bash
+python minecraft/gflownet_house.py 
+```
+
+The terminal will show its training process, and output the ratio of constructed house types after finishing training. In Minecraft, you'll see the last 10 houses created by the GFlowNet model. To manipulate the output of the model, modify the rewards and/or the house properties in the `house_reward` function.
+
+> Just a reminder that this implementation does not work as expected, please read the [#important:-not-working-as-expected-(suggested-fixes)] section.
+
 ## GFlowNet Tutorial
 
 </br>
