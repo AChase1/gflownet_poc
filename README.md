@@ -1,8 +1,12 @@
 ### Table of Contents
 > [GFlowNet Proof-Of-Concept](#gflownet-proof-of-concept)<br>
+> [Minecraft GFlowNet](#gflownet-minecraft)<br>
+>     [Description](#description-1)
+>     [Important: Not Working As Expected (Suggested Fixes)](#important-not-working-as-expected-suggested-fixes)
+>     [How To Use](#how-to-use-1)
 > [GFlowNet Tutorial](#gflownet-tutorial)<br>
->     > [Description](#description)<br>
->     > [How To Use](#how-to-use)<br>
+>     [Description](#description)<br>
+>     [How To Use](#how-to-use)<br>
 > [Authors](#authors)
 
 </br>
@@ -21,7 +25,7 @@ Related Resources:
 </br>
 </br>
 
-## GFlowNet Minecraft
+## Minecraft GFlowNet
 
 </br>
 
@@ -36,8 +40,6 @@ One source provides a potential solution for this, called [Boosted GFlowNets](ht
 Next Steps: Implement a working Boosted GFlowNet in order to address the mode collapse
 
 ### How To Use 
-
-#### Setup
 
 **Minecraft**
 
@@ -88,7 +90,10 @@ python minecraft/gflownet_house.py
 
 The terminal will show its training process, and output the ratio of constructed house types after finishing training. In Minecraft, you'll see the last 10 houses created by the GFlowNet model. To manipulate the output of the model, modify the rewards and/or the house properties in the `house_reward` function.
 
-> Just a reminder that this implementation does not work as expected, please read the [#important:-not-working-as-expected-(suggested-fixes)] section.
+> Just a reminder that this implementation does not work as expected, please read the Important: Not Working As Expected (Suggested Fixes) section.
+
+</br>
+</br>
 
 ## GFlowNet Tutorial
 
